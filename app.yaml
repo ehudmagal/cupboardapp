@@ -1,4 +1,6 @@
-application: ctst
+
+application: cupboardapp
+
 version: 1
 runtime: python27
 api_version: 1
@@ -7,14 +9,14 @@ threadsafe: yes
 builtins:
 - remote_api: on
 
-inbound_services:
-- warmup
 
-libraries:
-- name: django
-  version: latest
 
 handlers:
+
+
+- url: /admin
+  static_dir: admin
+
 - url: /_ah/queue/deferred
   script: djangoappengine.deferred.handler.application
   login: admin
@@ -26,9 +28,23 @@ handlers:
   static_dir: django/contrib/admin/media
   expiration: '0'
 
-- url: /static/admin
-  static_dir: django/contrib/admin/static/admin
-  expiration: '0'
+
+- url: /_ah/admin.*
+  script: google.appengine.ext.admin.application
+  login: admin
+
+
+
 
 - url: /.*
   script: djangoappengine.main.application
+
+
+
+libraries:
+- name: django
+  version: latest
+
+
+
+
