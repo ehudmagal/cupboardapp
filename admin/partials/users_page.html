@@ -1,0 +1,68 @@
+<style>
+td.bar{
+padding-left:25px;
+padding-top:10px;
+padding-bottom: 2px;
+}
+</style>
+<div class="breadcrumbs">
+<table>
+<tr>
+
+<td class="bar">
+	<a href="javascript:void(0);" ng-click="new_user()">
+	 <p class="bar">
+	            create new user
+	</p>
+	</a>
+</td>
+    <td class="bar">
+	<a href="javascript:void(0);" ng-click="untested_loggers()">
+	 <p class="bar">
+	            Untested loggers
+	</p>
+	</a>
+</td>
+
+ <tr>
+</table>
+</div>
+<button ng-click="tableParams.sorting({})" class="btn btn-default pull-right">Clear sorting</button>
+    <br>
+	<p><strong>
+	Search anything: <input ng-model="query">
+	</strong></p>
+        <p>
+            <table>
+    <tr>
+        <td>
+            <b>
+               Show only Owners . number of users = {{(raw_users|hasProjects:show_users_with_projects).length}}
+               </b>
+            </td>
+        <td style="padding-left: 50px">
+            <b>
+        <input type="checkbox" ng-model="show_users_with_projects"  ng-checked = "show_users_with_projects" ng-click="show_users_with_projects=!show_users_with_projects" style="height:30px;"/>
+           </b>
+        </td>
+    </tr>
+           </table>
+
+        </p>
+
+    <table ng-table="tableParams  "  class="table">
+        <tr ng-repeat="user in $data | filter:query|hasProjects:show_users_with_projects">
+            <td data-title="'Name'" sortable="'first_name'" >
+                {{user.first_name}}
+            </td>
+            <td data-title="'Email'" sortable="'email'">
+                {{user.email}}
+            </td>
+			<td data-title="'user details'" >
+                <a href="#/users/{{user.id}}">configure {{user.first_name}}</a>
+            </td>
+            <td>
+              <a ng-href="javascript:void(0);"     ng-click="delete_user(user)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black"> delete {{user.first_name}} </font></a>
+            </td>
+        </tr>
+    </table>

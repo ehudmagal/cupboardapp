@@ -1,0 +1,69 @@
+
+  <link rel="stylesheet" href="css/add_free_loggers.css" />  
+    <table style="float: left">
+	<tr>
+	<td>
+	<ul class="phones">      	  	 
+		  <li>
+		  <div class = "hDiv">
+		  projects
+		  </div>	
+          </li>
+        </ul>	
+	</td>
+	</tr>	
+	<tr>
+	<td>
+	 <ul class="phones">
+      <li  ng-repeat="project in projects">
+	  <div class = "divClass">	  
+	   <button  class = "detailsButton" ng-click="showSiblings(project)">{{project.name}} details</button>
+        <ul class="unstyled" ng-show="project.showSiblings" >
+		  <li ng-repeat="logger in getProjectLoggers(project.id,projects_loggers,loggers)"/>
+		  <p> <input type="checkbox" ng-model="checked" ng-change="deletePair(project.id,logger.id,projects_loggers)"> mark logger {{logger.id}} to delete</p>		  
+          </li>
+        </ul>
+      <p class = "pClassProject" droppable  draggable id = "project_{{project.id}}">drop loggers in here
+	  <br>or drag  this box to logger
+	  </p>		
+      </li>
+	  </div>
+    </ul>   
+	</td>	
+	</tr>
+	</table>
+   
+   <table style="float: left">
+   <tr>
+	<td>
+	<ul class="phones">      	  	 
+		  <li>
+		  <div class = "hDiv">
+		  Loggers
+		  </div>	
+          </li>
+        </ul>	
+	</td>
+	</tr>	
+   <tr>
+   <td>
+   <ul class="phones">
+      <li  ng-repeat="logger in loggers">
+	 <div class = "divClass">	 
+	   <button class = "detailsButton" ng-click="showSiblings(logger)">logger {{logger.id}} details</button>	
+          <ul class="unstyled" ng-show="logger.showSiblings" >
+		  <li ng-repeat="project in getLoggerProjects(logger.id,projects_loggers,projects)"/>
+		  <p > <input type="checkbox" ng-model="checked" ng-change="deletePair(project.id,logger.id,projects_loggers)" > mark  {{project.name}} to delete</p>		 
+          </li>		   
+        </ul>
+         <p class = "pClassLogger" id="logger_{{logger.id}}" draggable  droppable width="200" height="69">drop projects here
+	       <br>or drag  this box to project</p>		
+      </li>
+	   </div>
+    </ul>   
+   </td>
+   </tr>
+   </table>
+  </div>
+
+ 

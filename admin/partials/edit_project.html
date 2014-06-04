@@ -1,0 +1,256 @@
+<style>
+td.bar{
+padding-left:25px;
+padding-top:10px;
+padding-bottom: 2px;
+}
+p.bar{
+color:green;
+height: 25px;
+}
+input{
+"height:30px;"
+}
+</style>
+
+<div class="breadcrumbs">
+<table>
+<tr>
+
+<td class="bar" ng-show = "!readonly">
+
+	<a href="javascript:void(0);" ng-click="submit_project()">
+	 <p class="bar">
+	<i class="icon-save bigger-230"></i>
+	</p>
+	</a>
+</td>
+
+    <td class="bar"  ng-show = "edit_project">
+   <a href="javascript:void(0);" ng-click="manage_user()">
+	 <p class="bar">
+	<i class="icon-wrench bigger-230" ></i>
+	</p>
+	</a>
+	</td>
+    <td class="bar"  ng-show = "edit_project">
+   <a href="javascript:void(0);" ng-click="new_dataset()">
+	 <p class="bar">
+	Add calculations
+	</p>
+	</a>
+
+	</td>
+    <td class="bar"  ng-show = "edit_project">
+       <a href="javascript:void(0);" ng-click="mobile_prefs()">
+	 <p class="bar">
+	Mobile prefs
+	</p>
+	</a>
+    </td>
+     <td class="bar"  ng-show = "edit_project || view_project">
+       <a href="javascript:void(0);" ng-click="charts_page()">
+	 <p class="bar">
+	View Project Charts Page
+	</p>
+	</a>
+    </td>
+<tr>
+</table>
+</div>
+
+  <br>
+    <br>
+  <form  name="form" class="css-form" novalidate>
+  <table>
+  <tr>
+  <td>
+    Name: 
+  </td>
+  <td>
+  <input type="text" ng-model="project.name"  ng-readonly="readonly"/>
+  </td>
+  </tr>
+  <tr>
+  <td>
+    Soil:
+	</td>
+	<td>
+	 <select ng-model="project.soil_id" ng-options="soil.id as soil.name for soil in soils" required ng-disabled="readonly"></select>
+	</td>
+     <td>
+    Crop:
+	</td>
+	<td>
+	 <select ng-model="project.crop_id" ng-options="crop.id as crop.name for crop in crops" required ng-disabled="readonly"></select>
+	</td>
+	</tr>
+	<tr>
+	<td>
+    Latitude:
+	</td>
+	<td>
+	 <input type="number" ng-model="project.latitude"  min="0" max="359"  float  style="height:30px;" ng-readonly="readonly"/><br>
+	 <span ng-show="form.size.$error.integer">This is not valid latitute!</span>
+    <span ng-show="form.size.$error.min || form.size.$error.max">
+      The latitude must be in range 0 to 359!</span>
+	</td>
+	<td>
+    Longitude:
+	</td>
+	<td>
+	 <input type="number" ng-model="project.longitude" min="0" max="359"  float  style="height:30px;" ng-readonly="readonly"/>
+	</td>
+	<tr>
+	<td>
+    Activation date
+	</td>
+	<td>
+	 <input type="date" ng-model="project.activation_date" ng-readonly="readonly">
+	</td>
+	<td>
+	De-activation date
+	</td>
+	<td>
+	<input type="date" ng-model="project.deactivation_date" ng-readonly="readonly">
+	</td>	
+	</tr>
+    <tr>
+  <td>
+    Owner:
+	</td>
+	<td>
+	 <select ng-model="project.owner_id" ng-options="user.id as user.first_name+' '+user.last_name for user in users" required ng-disabled="readonly"></select>
+	</td>
+	</tr>
+	 <tr>
+  <td>
+    Logo:
+	</td>
+	<td>
+	 <input type="text" ng-model="project.logo" ng-readonly="readonly"/>
+	</td>
+	</tr>
+     <tr  ng-show = "edit_project">
+     <td style="text-align:left;vertical-align:top;padding:0">
+      Shared users:
+     </td>
+      <td>
+		<ul class="fa-ul">
+        <li ng-repeat="user in shared_users" >
+		<p><a ng-href="javascript:void(0);" ng-disabled="readonly" ng-click="delete_shared_user(user)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black"> {{user.first_name}} {{user.last_name}} </font></a>
+       </li>
+    </ul>
+      </td>
+	</tr>
+	<tr>
+	<td>	
+
+	</td>
+	<td>
+	<div class="widget-box" ng-show = "edit_project">
+<div class="widget-header" style="width:350px;!important">
+											<h5>Share to users</h5>
+											<div class="widget-toolbar">
+		                 <input type="text" ng-model="searchString" placeholder="Enter your search terms" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+    <tr  ng-repeat="user in users | searchFirstName:searchString  | startFrom:users_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+    <a ng-href="javascript:void(0);"    ng-disabled="readonly" ng-click="add_shared_user(user)"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{user.first_name}} {{user.last_name}}</font></a>
+    </td>
+	</tr>
+       <tr>
+        <td>
+             <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(users_curent_page,users)">
+                <button>
+              <a tabindex="0" ng-click="prevPage(users_curent_page,users)">� Prev</a>
+                    </button>
+            </li>
+            <li ng-class="nextPageDisabled(users_curent_page,users)">
+                <button>
+              <a tabindex="0" ng-click="nextPage(users_curent_page,users)">Next �</a>
+                    </button>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+	</td>
+
+	<td>
+
+	</td>
+	<td valign="top">
+	<div class="widget-box" >
+<div class="widget-header" style="width:350px;!important">
+
+											<div class="widget-toolbar">
+		                 <input type="text" ng-model="searchCalcString" placeholder="Project Datasets" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+    <tr  ng-repeat="calc in calcs | searchTitle:searchCalcString  | startFrom:calcs_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+   {{calc.title}}
+    </td>
+        <td style="padding-left: 20px">
+           id: {{calc.id}}
+        </td>
+	</tr>
+       <tr>
+        <td>
+            <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(calcs_curent_page,calcs)">
+                <button>
+              <a tabindex="0" ng-click="prevPage(calcs_curent_page,calcs)">� Prev</a>
+                    </button>
+            </li>
+            <li ng-class="nextPageDisabled(calcs_curent_page,calcs)">
+                <button>
+              <a tabindex="0" ng-click="nextPage(calcs_curent_page,calcs)">Next �</a>
+                    </button>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+	</td>
+	</tr>
+  </table>
+  </form>
+  
+  <style type="text/css">
+  .css-form input{
+	height:30px;
+  }
+  .css-form input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+  }
+ 
+  .css-form input.ng-valid.ng-dirty {
+    background-color: #78FA89;
+  }
+</style>

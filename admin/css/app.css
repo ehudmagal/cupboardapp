@@ -1,0 +1,9 @@
+body {
+    padding: 10px !important;   
+}
+
+.preview {
+    height:150px;
+    width: 150px;
+    border: 1px black solid;
+}

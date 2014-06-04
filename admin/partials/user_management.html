@@ -1,0 +1,108 @@
+ <link rel="stylesheet" href="css/user_management.css" />
+
+<table style="float: left">
+
+	<th>
+
+         <div class="span6 widget-container-span ui-sortable" style="width: 300px!important;" notdroppable notdraggable >
+									<div class="widget-box" notdroppable notdraggable >
+										<div class="widget-header" notdroppable notdraggable>
+											<h5 notdroppable notdraggable>  </h5>
+											<div class="widget-toolbar" notdroppable notdraggable>
+             <input type="text" ng-model="searchStringProjects"    placeholder="projects" />
+
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+   </th>
+
+
+	<tr>
+    <tr notdroppable ng-repeat = "project in projects | searchForName:searchStringProjects">
+    <td notdroppable>
+
+        <div class="span6 widget-container-span" style="width: 300px!important;" droppable  notdraggable id = "project_{{project.id}}">
+									<div notdroppable notdraggable class="widget-box" >
+										<div  notdroppable notdraggable class="widget-header">
+											<h5 notdroppable notdraggable><a notdroppable notdraggable  href="#/users/{{userId}}/edit_project_{{project.id}}">{{project.name}}</a></h5>
+											<div notdroppable notdraggable class="widget-toolbar" >
+												<a notdroppable notdraggable ng-href="javascript:void(0);"    ng-click="showSiblings(project)">
+													<i notdroppable notdraggable ng-class="getChevronClass(project)"></i>
+												</a>
+											</div>
+										</div>
+
+										<div  notdroppable notdraggable class="widget-body"><div class="widget-body-inner" style="display: block;">
+											<div notdroppable notdraggable class="widget-main"  >
+												<ul notdroppable notdraggable class="unstyled" ng-show="project.showSiblings" >
+		                                        <li notdroppable notdraggable  ng-repeat="id in project.remote_logger_ids"/>
+                                                <p notdroppable notdraggable><a notdroppable href="javascript:void(0);" ><i ng-show = "false" class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black"> logger {{id}} </font></a>
+                                               </p>
+                                                </li>
+                                                 </ul>
+											</div>
+										</div></div>
+									</div>
+								</div>
+
+    </td>
+    </tr>
+	</table>
+   
+   <table style="float: left">
+       <th>
+		   <div class="span6 widget-container-span ui-sortable" style="width: 300px!important;" notdroppable notdraggable >
+									<div class="widget-box" notdroppable notdraggable >
+										<div class="widget-header" notdroppable notdraggable>
+											<h5 notdroppable notdraggable>  </h5>
+											<div class="widget-toolbar" notdroppable notdraggable>
+             <input type="text" ng-model="searchStringLoggers"    placeholder="Sensors" />
+
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+   </th>
+
+   <tr ng-repeat = "logger in loggers | searchFor:searchStringLoggers">
+    <td>
+
+        <div class="span6 widget-container-span ui-sortable" style="width: 300px!important;" notdroppable draggable id = "logger_{{logger.id}}">
+									<div class="widget-box" notdroppable notdraggable >
+										<div class="widget-header" notdroppable notdraggable>
+											<h5 notdroppable notdraggable>
+                                                <a href="javascript:void(0)" ng-click = "logger.show_sensors = !logger.show_sensors"> {{logger.id}}</a>
+                                               </h5>
+                                             <ul ng-show = "logger.show_sensors">
+                                            <li ng-repeat="sensor in logger.sensors">
+                                              {{sensor.title}}
+                                             </li>
+                                             </ul>
+											<div class="widget-toolbar" notdroppable notdraggable>
+												<a notdroppable notdraggable ng-href="javascript:void(0);"    ng-click="showSiblings(logger)">
+													<i notdroppable notdraggable ng-class="getChevronClass(logger)"></i>
+												</a>
+											</div>
+										</div>
+
+										<div  notdroppable notdraggable class="widget-body"><div class="widget-body-inner" style="display: block;">
+											<div class="widget-main" notdroppable notdraggable >
+												<ul notdroppable notdraggable class="unstyled" ng-show="logger.showSiblings" >
+		                                        <li notdroppable notdraggable ng-repeat="project in getLoggerProjects(logger)"/>
+                                                <p notdroppable notdraggable><a notdroppable notdragable href="javascript:void(0);" ><i ng-show ="false" class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black">  {{project.name}} </font></a>
+                                               </p>
+                                                </li>
+                                                 </ul>
+											</div>
+										</div></div>
+									</div>
+								</div>
+
+    </td>
+    </tr>
+   </table>

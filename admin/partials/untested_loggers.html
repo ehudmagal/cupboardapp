@@ -1,0 +1,80 @@
+<table>
+  <tr>
+      <td>
+<div class="widget-box" style="width: 300px;">
+<div class="widget-header" >
+
+											<div class="widget-toolbar" style="width: 300px; padding-left: 50px;">
+		                 <input type="text" ng-model="searchString" placeholder="untested loggers" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												
+<table>	
+    <tr ng-repeat="logger in untested_loggers_arr | searchFor:searchString| offset:untested_loggers_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage ">
+	<td>
+    <p><input type="checkbox" ng-model="logger.tested"  ng-change="test_logger(logger)"> {{logger.id}}</p>
+	</td>	
+	</tr>
+    <tr>
+        <td>
+          <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(untested_loggers_curent_page,untested_loggers_arr)">
+              <a href ng-click="prevPage(untested_loggers_curent_page,untested_loggers_arr)">� Prev</a>
+            </li>
+            <li ng-class="nextPageDisabled(untested_loggers_curent_page,untested_loggers_arr)">
+              <a href ng-click="nextPage(untested_loggers_curent_page,untested_loggers_arr)">Next �</a>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+      </td>
+      <td>
+          <div class="widget-box" style="width: 300px;">
+<div class="widget-header" >
+
+											<div class="widget-toolbar" style="width: 300px; padding-left: 50px;">
+		                 <input type="text" ng-model="searchStringTested" placeholder="tested loggers" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+<table>
+    <tr ng-repeat="logger in tested_loggers_arr | searchFor:searchStringTested | offset:tested_loggers_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage ">
+	<td>
+    <p>{{logger.id}}</p>
+	</td>
+	</tr>
+    <tr>
+        <td>
+          <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(tested_loggers_curent_page,untested_loggers_arr)">
+              <a href ng-click="prevPage(tested_loggers_curent_page,untested_loggers_arr)">� Prev</a>
+            </li>
+            <li ng-class="nextPageDisabled(tested_loggers_curent_page,untested_loggers_arr)">
+              <a href ng-click="nextPage(tested_loggers_curent_page,untested_loggers_arr)">Next �</a>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+      </td>
+    </tr>
+ </table>

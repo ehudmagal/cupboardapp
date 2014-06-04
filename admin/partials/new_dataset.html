@@ -1,0 +1,168 @@
+<style>
+td.bar{
+padding-left:25px;
+padding-top:10px;
+padding-bottom: 2px;
+}
+p.bar{
+color:green;
+height: 25px;
+}
+input{
+"height:30px;"
+}
+</style>
+
+<div class="breadcrumbs">
+<table>
+<tr>
+
+<td class="bar">
+
+	<a href="javascript:void(0);" ng-click="submit_dataset()">
+	 <p class="bar">
+	<i class="icon-save bigger-230"></i>
+	</p>
+	</a>
+</td>
+<td class="bar">
+   <a href="javascript:void(0);" ng-click="manage_user()">
+	 <p class="bar">
+	<i class="icon-wrench bigger-230" ></i>
+	</p>
+	</a>
+	</td>
+<tr>
+</table>
+</div>
+	<table style="float: left">	
+	<tr>
+	<td style="vertical-align: top; ">
+  <form  name="form" class="css-form" novalidate>
+  <table>
+  <tr>
+  <td>
+    Calculation Type: 
+  </td>
+  <td>
+  <select ng-model="selectedCalcType" ng-change = "set_selected_calc_type(selectedCalcType)" ng-options="calculation_type as calculation_type.name  for calculation_type in calculation_types" required ng-disabled="readonly"></select>
+  </td>
+  </tr>
+  <tr>
+  <td>
+    Title:
+	</td>
+	<td>
+	 <input type="text" ng-model="dataset.title" style="height:30px;" required ng-disabled="readonly"></select>
+	</td>
+	</tr>
+    <tr  ng-show="dataset.type_id == 206">
+     <td>
+    Initialization value*:
+	</td>
+	<td>
+	 <input type="text" ng-model="dataset.calc_parameters.initialization_value" name="initialization_value" smart-float style="height:30px;" required ng-readonly="readonly">
+        <span ng-show="form.initialization_value.$error.float">
+      This is not a valid float number!</span>
+         <span ng-show="dataset.calc_parameters.initialization_value < 0">
+      Initialization value must be >= 0</span>
+	</td>
+	</tr>
+    <tr ng-show="dataset.type_id == 176 && selectedCalcType.name == 'Water Meter' ">
+	<td>
+     Litre Per Pulse
+	</td>
+	<td>
+	 <input type="number" ng-model="dataset.calc_parameters.litre_per_pulse" integer style="height:30px;" ng-readonly="readonly"/>
+	</td>
+	</tr>	
+    <tr ng-show="dataset.type_id == 176  && selectedCalcType.name == 'Water Meter'">
+	<td>
+     Number Of Trees
+	</td>
+	<td>
+	 <input type="number" ng-model="dataset.calc_parameters.number_of_trees" integer style="height:30px;" ng-readonly="readonly"/>
+	</td>
+	</tr>
+    <tr ng-show="dataset.type_id == 176 && selectedCalcType.name == 'Water Meter'">
+	<td>
+     Trees Per Acre
+	</td>
+	<td>
+	 <input type="number" ng-model="dataset.calc_parameters.trees_per_acre" integer style="height:30px;" ng-readonly="readonly"/>
+	</td>
+	</tr>		
+	<tr ng-show="dataset.type_id == 160 || dataset.type_id == 209">
+	<td>
+     Offset
+	</td>
+	<td>
+        <input type="text" ng-model="dataset.calc_parameters.offset"  name = "offset" style="height:30px;"  ng-readonly="readonly" smart-float>
+         <span ng-show="form.offset.$error.float">
+      This is not a valid float number!</span>
+	</td>
+	</tr>
+       <tr ng-show="dataset.type_id == 209">
+     <td>
+    Scale Factor:
+	</td>
+	<td>
+	 <input type="text" ng-model="dataset.calc_parameters.scale_factor"  name = "scale_factor" style="height:30px;"  ng-readonly="readonly" smart-float>
+         <span ng-show="form.scale_factor.$error.float">
+      This is not a valid float number!</span>
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<ul class="fa-ul">
+        <li ng-repeat="pd in dataset.parent_ids track by $index" >	   
+		<p><a ng-href="javascript:void(0);" ng-disabled="readonly" ng-click="delete_parent(pd)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black"> id = {{pd}} name = {{get_parent_by_id(pd).title}}  </font></a>
+  </li>
+</ul>
+	</td>
+   </tr>
+<tr ng-show = "dataset.calculation_type.selected_components">
+    <td  >
+        <b>
+           add {{dataset.calculation_type.selected_components - dataset.parent_ids.length }} parent dataset to dataset
+        </b>
+    </td>
+</tr>
+<tr ng-show = "dataset.calculation_type.selected_components">
+    <td>
+        <strong>
+	Search by name:	<input type="text" ng-model="searchName" placeholder="Search by Name" />
+    </strong>
+    </td>
+</tr>
+	<tr ng-show = "dataset.calculation_type.selected_components">
+        <td>
+          <ul class="fa-ul">
+        <li ng-repeat="ds in parent_datasets  | searchDSName:searchName |offset:currentPage*itemsPerPage | limitTo:itemsPerPage" >
+		<p><a ng-href="javascript:void(0);" ng-disabled="readonly" ng-click="add_parent(ds.id)"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{ds.title}} id = {{ds.id}} </font></a>
+     </li>
+    </ul>
+	<div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled()">
+              <a href ng-click="prevPage()">� Prev</a>
+            </li>
+            <li ng-repeat="n in range()"
+              ng-class="{active: n == currentPage}" ng-click="setPage(n)">
+              <a href="#">{{n+1}}</a>
+            </li>
+            <li ng-class="nextPageDisabled()">
+              <a href ng-click="nextPage()">Next �</a>
+            </li>
+          </ul>
+        </div>
+        </td>
+	</tr>
+  </table>
+  </form>
+  </td>
+  </tr>
+  </table>
+  
+  
+  

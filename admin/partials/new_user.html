@@ -1,0 +1,147 @@
+<style>
+td.bar{
+padding-left:25px;
+padding-top:10px;
+padding-bottom: 2px;
+}
+p.bar{
+color:green; 
+height: 25px;
+}
+input{
+height:30px;
+}
+</style>
+
+<div class="breadcrumbs">
+<table>
+<tr>
+
+<td class="bar">
+
+	<a href="javascript:void(0);" ng-click="submit_user()">
+	 <p class="bar">
+	<i class="icon-save bigger-230"></i>
+	</p>
+	</a>
+</td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+ <table>
+ 
+ <tr>
+ <td>
+  <form novalidate class="simple-form">
+  <table>
+  <tr>
+  <td>
+    First Name:
+  </td>
+  <td>
+  *<input type="text" ng-model="user.first_name" required style="height:30px;" />
+  </td>
+  <td>
+  </td>
+  </tr>
+  <tr>
+  <td>
+    Last Name:
+  </td>
+  <td>
+  *<input type="text" ng-model="user.last_name" required  style="height:30px;" />
+  </td>
+  <td>
+  </td>
+  </tr>
+   <tr>
+  <td>
+   Password:
+  </td>
+  <td>
+  *<input type="text" ng-model="user.password"  required style="height:30px;" />
+  </td>
+  <td>
+  </td>
+  </tr>
+  <tr>
+  <td>
+    E-mail:
+	</td>
+	<td>
+	 *<input type="email" ng-model="user.email" required style="height:30px;"/>
+	</td>
+	<td>
+	</td>
+	</tr>
+	<tr>
+	<td>
+    Admin:
+	</td>
+	<td>
+	 <input type="checkbox" ng-model="user.admin"  checked = "user.admin"  style="height:30px;"/>
+	</td>
+	<td>	
+	</td>
+	</tr>
+	 <tr>
+    <td>
+    Address: 
+   </td>
+   <td>
+   <input type="text" ng-model="user.address"  style="height:30px;"/>
+   </td>
+   <td>
+	</td>
+  </tr>
+   <tr>
+  <td>
+    Country: 
+  </td>
+  <td>
+  *<input type="text" ng-model="user.country"  required style="height:30px;"/>
+  </td>
+  <td>
+  </td>
+  </tr>
+   <tr>
+  <td>
+    State:
+  </td>
+  <td>
+   <input type="text" ng-model="user.state"  style="height:30px;"/>
+  </td>
+  <td>
+	</td>
+  </tr>
+
+	 <tr>
+  <td>
+    Agronomist:
+	</td>
+	<td>
+	 *<select ng-model="user.agronomist_id" required ng-options="agronomist.id as agronomist.first_name for agronomist in agronomists" required ng-disabled="readonly"></select>
+	</td>
+	</tr>
+      <tr>
+           <tr>
+  <td>
+    Metric Units:
+	</td>
+	<td>
+	 <select ng-model="user.metric_units" ng-options="metric_unit.id as metric_unit.name for metric_unit in metric_units"  ></select>
+	</td>
+	</tr>
+      </tr>
+  </table>
+  </form>
+   </td> 
+
+  <td>
+   
+   </td>
+     </tr>
+ </table>
+

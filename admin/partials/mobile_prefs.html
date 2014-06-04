@@ -1,0 +1,615 @@
+<style>
+td.bar{
+padding-left:25px;
+padding-top:10px;
+padding-bottom: 2px;
+}
+p.bar{
+color:green;
+height: 25px;
+}
+input{
+"height:30px;"
+}
+.selectedItem{
+  color:red !important;
+}
+#tabs_bar{
+    position: absolute !important;
+    left:0px !important;
+    }
+    button {
+
+    background: transparent;
+    border: none !important;
+}​
+</style>
+
+<div class="breadcrumbs">
+<table>
+<tr>
+
+<td class="bar">
+
+	<button><a  ng-show = "show_graphs" tabindex="0" ng-click="submit_mobile_prefs_graph(selected_graph_obj,mobile_prefs,projectId)">
+	 <p class="bar">
+	<i class="icon-save bigger-230"></i>
+	</p>
+	</a></button>
+</td>
+ <td class="bar">
+
+	<a  ng-show = "!show_graphs" tabindex="0" ng-click="submit_mobile_prefs_table(selected_table_obj,mobile_prefs,projectId)">
+	 <p class="bar">
+	<i class="icon-save bigger-230"></i>
+	</p>
+	</a>
+</td>
+    <td class="bar" ng-show = "show_graphs">
+	<button><a tabindex="0" ng-click="new_graph()">
+	 <p class="bar">
+	            Create a new graph
+	</p>
+	</a></button>
+</td>
+
+     <td class="bar" ng-show = "!show_graphs">
+         <button>
+	<a tabindex="0" ng-click="new_table()">
+	 <p class="bar">
+	            Create a new table
+	</p>
+	</a>
+             </button>
+</td>
+
+</tr>
+
+</table>
+<div class="widget-box">
+										<div class="widget-header">
+											<h5></h5>
+											<div class="widget-toolbar no-border" id="tabs_bar">
+												<ul class="nav nav-tabs" id="myTab">
+													<li ng-class="graphs_class()">
+                                                        <button>
+														<a data-toggle="tab" tabindex="0" ng-click = "show_graphs = true" >Graphs</a>
+                                                        </button>
+													</li>
+
+													<li ng-class="tables_class()">
+                                                        <button>
+														<a data-toggle="tab" tabindex="0" ng-click = "show_graphs = false">Tables</a>
+                                                            </button>
+													</li>
+
+
+												</ul>
+	</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+<table ng-show = "show_graphs">
+    <tr ng-repeat="graph in mobile_prefs.graph_metadata.graphs">
+      <td>
+          <button>
+        <a tabindex="0" ng-disabled="readonly" ng-click="delete_graph(graph)"><i class="fa fa-minus-square" style="color: black !important;"></i> </a>
+              </button>
+    </td>
+
+      <td style = "padding-left:25px;">
+    graph{{$index+1}}
+	</td>
+    <td  style = "padding-left:25px;">
+       <button>
+	<a tabindex="0" ng-click = "load_graph(graph)"> <i ng-class = "getSelectedGraphClass(graph)"></i></a>
+        </button>
+	</td>
+	</tr>
+ </table>
+<table ng-show = "!show_graphs">
+    <tr ng-repeat="table in mobile_prefs.graph_metadata.tables">
+     <td>
+         <button>
+        <a tabindex="0" ng-disabled="readonly" ng-click="delete_table(table)"><i class="fa fa-minus-square" style="color: black !important;"></i> </a>
+             </button>
+    </td>
+      <td style = "padding-left:25px;">
+    table{{$index+1}}
+	</td>
+    <td  style = "padding-left:25px;">
+        <button>
+	<a tabindex="0" ng-click = "load_table(table)"> <i ng-class="getSelectedTableClass(table)"></i></a>
+            </button>
+	</td>
+	</tr>
+ </table>
+</div>
+ </div>
+ </div>
+</div>
+
+  <br>
+    <br>
+        <table>
+             <tr style=" display: block; margin-bottom: 10px;">
+      <td>
+         <b> Status: </b>  {{get_title_by_id(mobile_prefs.graph_metadata.plant_status_id)}}
+      </td>
+
+<br>
+<br>
+  </tr>
+ <tr>
+                      <td >
+                         <div class="widget-box">
+<div class="widget-header">
+     <input type="text" ng-model="searchStatus" placeholder="search"  style="height: 30px;"/>
+											<div class="widget-toolbar">
+
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+       <tr>
+          <td>
+              <button>
+           <a tabindex="0" ng-click="show_status_dataset_search = !show_status_dataset_search">
+	       <p class="bar">
+	     <i ng-class="getStatusClass()"></i><font style="color: black !important;"> Status</font>
+	    </p>
+	   </a>
+            </button>
+          </td>
+
+      </tr>
+    <tr  ng-show = "show_status_dataset_search" ng-repeat="dataset in datasets | searchDSName:searchStatus  | startFrom:status_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+        <button>
+    <a tabindex="0"     ng-click="set_status(dataset)"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{dataset.title}} </font></a>
+            </button>
+    </td>
+	</tr>
+       <tr>
+        <td>
+          <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(status_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="prevPage(status_curent_page,datasets)">� Prev</a>
+                    </button>
+            </li>
+            <li ng-class="nextPageDisabled(status_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="nextPage(status_curent_page,datasets)">Next �</a>
+                    </button>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+                      </td>
+	           </tr>
+
+ <tr>
+                      <td >
+                         <div class="widget-box">
+<div class="widget-header">
+              <h5>Enabled Indicators</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+    <tr  ng-repeat="(key, value) in enabled_indicators">
+	<td>
+        <input type="checkbox" ng-model="value.checked" ng-change="add_remove_indicator(key,value)" ng-checked = "is_indicator_present(key)" style="height:30px;"/>{{key}}
+    </td>
+	</tr>
+  </table>
+
+</div>
+</div>
+</div>
+                      </td>
+	           </tr>
+        </table>
+        <br>
+        <br>
+  <table  ng-show = "show_graphs">
+
+       <tr  >
+          <td>
+           <form>
+               <table>
+                   <tr>
+                       <td>
+                           <b>Category:</b>
+                       </td>
+                       </tr>
+                      <tr>
+                       <table>
+                           <tr>
+                       <td style="padding-left: 100px">
+                         <input type="radio" ng-model="selected_graph_obj.category" value="Plant">  Plant <br/>
+                       </td>
+                       <td>
+                        <input type="radio" ng-model="selected_graph_obj.category" value="Soil"> Soil <br/>
+                       </td>
+                           </tr>
+                   </table>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                          <b> Portrait </b>
+                       </td>
+                       <td>
+
+                       </td>
+                   </tr>
+                    <tr>
+                       <td>
+                           title:
+                       </td>
+
+                   </tr>
+                   <tr>
+                        <td>
+                        <input type="text" ng-model="selected_graph_obj.portrait.title"/>
+                       </td>
+                   </tr>
+                  <tr>
+                  <td style="text-align:left;vertical-align:top;padding:0">
+                  Datasets:
+                 </td>
+                      </tr>
+                   <tr>
+                  <td valign = "top">
+		           <ul class="fa-ul">
+                  <li ng-repeat="data_set in selected_graph_obj.portrait.data_sources" >
+		          <p><button><a  style="padding-right: 50px" tabindex="0" ng-disabled="readonly" ng-click="delete_from_array(data_set,selected_graph_obj.portrait.data_sources)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black">{{get_title(data_set)}}  </font></a>
+                      </button>
+                   <font>Color: </font><input ng-model = "data_set.color" type='color'  value="data_set.color" style="height: 30px "/></p>
+                    </li>
+                </ul>
+               </td>
+                   </tr>
+                      <tr>
+                      <td >
+                         <div class="widget-box">
+<div class="widget-header">
+     <input type="text" ng-model="searchString" placeholder="search"  style="height: 30px;"/>
+											<div class="widget-toolbar">
+
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+       <tr>
+          <td>
+              <button>
+           <a tabindex="0" ng-click="show_portrait_dataset_search = !show_portrait_dataset_search">
+
+	       <p class="bar">
+	     <i ng-class="getPortraitClass()"></i><font style="color: black !important;"> Portrait Datasets</font>
+	    </p>
+	   </a>
+                  </button>
+          </td>
+
+      </tr>
+    <tr  ng-show = "show_portrait_dataset_search" ng-repeat="dataset in datasets | searchDSName:searchString  | startFrom:portrait_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+        <button>
+    <a tabindex="0"     ng-click="add_dataset(dataset,selected_graph_obj.portrait.data_sources,'#F53B11')"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{dataset.title}} </font></a>
+            </button>
+    </td>
+	</tr>
+       <tr>
+        <td>
+          <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(portrait_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="prevPage(portrait_curent_page,datasets)">� Prev</a>
+                    </button>
+            </li>
+            <li ng-class="nextPageDisabled(portrait_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="nextPage(portrait_curent_page,datasets)">Next �</a>
+                    </button>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+                      </td>
+	           </tr>
+
+                   <tr>
+                       <td>
+                           <b>Landscape</b>
+                       </td>
+                       <td></td>
+                   </tr>
+                   <tr>
+                       <td>
+                          title:
+                       </td>
+
+                   </tr>
+                   <tr>
+                       <td>
+                        <input type="text" ng-model="selected_graph_obj.landscape.title"/>
+                       </td>
+                   </tr>
+                  <tr>
+                  <td style="text-align:left;vertical-align:top;padding:0">
+                  Datasets:
+                 </td>
+                      </tr>
+                   <tr>
+                  <td valign = "top">
+                       <ul class="fa-ul">
+                  <li ng-repeat="data_set in selected_graph_obj.landscape.data_sources" >
+		          <p>
+                      <button>
+                      <a  style="padding-right: 50px" tabindex="0"  ng-click="delete_from_array(data_set,selected_graph_obj.landscape.data_sources)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black">{{get_title(data_set)}}  </font></a>
+                          </button>
+                   <font>Color: </font><input ng-model = "data_set.color" type='color'  value="data_set.color" style="height: 30px "/></p>
+                    </li>
+                </ul>
+               </td>
+                      </tr>
+                   <tr>
+                      <td >
+                          <div class="widget-box">
+<div class="widget-header">
+     <input type="text" ng-model="searchStringLandScape" placeholder="search"  style="height: 30px;"/>
+											<div class="widget-toolbar">
+
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+       <tr>
+          <td>
+              <button>
+           <a tabindex="0" ng-click="show_landscape_dataset_search = !show_landscape_dataset_search">
+	       <p class="bar">
+	     <i ng-class="getLandscapeClass()"></i><font style="color: #000000 !important;">  Landscape datasets</font>
+	    </p>
+	   </a>
+                  </button>
+          </td>
+
+      </tr>
+    <tr ng-show = "show_landscape_dataset_search" ng-repeat="dataset in datasets | searchDSName:searchStringLandScape  | startFrom:landscape_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+        <button>
+    <a tabindex="0"    ng-click="add_dataset(dataset,selected_graph_obj.landscape.data_sources,'#11F533')"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{get_title(dataset)}} </font></a>
+            </button>
+    </td>
+	</tr>
+       <tr>
+        <td>
+          <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(landscape_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="prevPage(landscape_curent_page,datasets)">� Prev</a>
+                    </button>
+            </li>
+            <li ng-class="nextPageDisabled(landscape_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="nextPage(landscape_curent_page,datasets)">Next �</a>
+                    </button>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+                      </td>
+	           </tr>
+                      <tr>
+	<td>
+
+	</td>
+	<td>
+
+	</td>
+	</tr>
+               </table>
+           </form>
+          </td>
+      </tr>
+      <tr>
+                  <td >
+                      <table ng-show="false">
+                          <tr>
+                              <td valign = "top">
+                                    Graph templates:
+                              </td>
+                              <td>
+                                  <ul class="fa-ul">
+                  <li ng-repeat="graph in client_prefs.graph_metadata.graphs track by $index" >
+		          <p>
+                      <button>
+                      <a tabindex="0"  ng-click="delete_graph_template(graph)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black">{{graph.portrait.title}}  </font></a>
+                          </button>
+                      <button>
+                         <a style="text-align:left;padding: 25px;" tabindex="0"  ng-click="delete_graph_template(graph)"> load graph template</a>
+                          </button>
+                      </p>
+                   </li>
+                </ul>
+                              </td>
+                          </tr>
+                      </table>
+
+               </td>
+	           </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table  ng-show = "!show_graphs">
+       <th>
+           Table
+       </th>
+       <tr  >
+          <td>
+           <form>
+               <table>
+
+                    <tr>
+                       <td>
+                            Title:
+                       </td>
+                        </tr>
+                   <tr>
+                       <td>
+                        <input type="text" ng-model="selected_table_obj.title"/>
+                       </td>
+                   </tr>
+
+                  <tr>
+                  <td style="text-align:left;vertical-align:top;padding:0">
+                  Data Sets:
+                 </td>
+                  </tr>
+                   <tr>
+                  <td style="text-align:left;vertical-align:top;padding:0">
+		           <ul class="fa-ul">
+                  <li ng-repeat="data_set in selected_table_obj.data_sources" >
+                      <button>
+		          <a tabindex="0"  ng-click="delete_from_array(data_set,selected_table_obj.data_sources)"><i class="fa fa-minus-square" style="color: black !important;"></i> <font color=" black">{{data_set.title}}  </font></a>
+                          </button>
+                    </li>
+                </ul>
+               </td>
+    </tr>
+    <tr>
+	<td>
+	<div class="widget-box">
+<div class="widget-header">
+     <input type="text" ng-model="searchStringLandScape" placeholder="search" style="height: 30px;"/>
+											<div class="widget-toolbar">
+
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+  <table>
+       <tr>
+          <td>
+              <button>
+           <a tabindex="0" ng-click="show_table_dataset_search = !show_table_dataset_search">
+	       <p class="bar">
+	     <i ng-class="getTableClass()"></i>
+	    </p>
+	   </a>
+                  </button>
+          </td>
+           <td>
+               Table Datasets
+           </td>
+      </tr>
+    <tr  ng-show = "show_table_dataset_search" ng-repeat="dataset in datasets | searchDSName:searchStringTable  | startFrom:table_curent_page.cur_page*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+        <button>
+    <a tabindex="0"     ng-click="add_dataset_table(dataset,selected_table_obj.data_sources)"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{dataset.title}} </font></a>
+            </button>
+    </td>
+
+	</tr>
+       <tr>
+        <td>
+          <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled(table_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="prevPage(table_curent_page,datasets)">� Prev</a>
+                    </button>
+            </li>
+            <li ng-class="nextPageDisabled(table_curent_page,datasets)">
+                <button>
+              <a tabindex="0" ng-click="nextPage(table_curent_page,datasets)">Next �</a>
+                    </button>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+</div>
+</div>
+	</td>
+	</tr>
+
+
+               </table>
+           </form>
+          </td>
+      </tr>
+  </table>
+
+
+
+  <style type="text/css">
+  .css-form input{
+	height:30px;
+  }
+  .css-form input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+  }
+
+  .css-form input.ng-valid.ng-dirty {
+    background-color: #78FA89;
+  }
+</style>

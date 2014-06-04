@@ -1,0 +1,388 @@
+<style>
+td.bar{
+padding-left:25px;
+padding-top:10px;
+padding-bottom: 2px;
+}
+p.bar{
+color:green; 
+height: 25px;
+}
+input{
+height:30px;
+}
+ #tabs_bar{
+    position: absolute !important;
+    left:0px !important;
+    }
+</style>
+
+<div class="breadcrumbs">
+<table>
+<tr>
+
+<td class="bar">
+
+	<a href="javascript:void(0);" ng-click="submit_user(user)">
+	 <p class="bar">
+	<i class="icon-save bigger-230"></i>
+	</p>
+	</a>
+</td>
+<td class="bar">	
+   <a href="javascript:void(0);" ng-click="manage_user()">
+	 <p class="bar">
+	<i class="icon-wrench bigger-230" ></i>	
+	</p>
+	</a>
+	</td>
+
+     <td class="bar">
+   <a href="#/users/{{userId}}/new_project" >
+	 <p class="bar">
+	New Project
+	</p>
+	</a>
+
+	</td>
+	<tr>
+</table>	
+</div>
+
+
+<br>
+<br>
+ <table>
+ 
+ <tr>
+ <td>
+  <form novalidate class="simple-form">
+  <table>
+  <tr>
+  <td>
+   First Name:
+  </td>
+  <td>
+  <input type="text" ng-model="user.first_name"  style="height:30px;" />
+  </td>
+  <td>
+  </td>
+  </tr>
+       <tr>
+  <td>
+    Last Name:
+  </td>
+  <td>
+  <input type="text" ng-model="user.last_name"  style="height:30px;" />
+  </td>
+  <td>
+  </td>
+  </tr>
+  <tr>
+  <td>
+    E-mail:
+	</td>
+	<td>
+	 <input type="email" ng-model="user.email"  style="height:30px;"/>
+	</td>
+	<td>
+	</td>
+	</tr>
+	<tr>
+	<td>
+    Admin:
+	</td>
+	<td>
+	 <input   type="checkbox"  ng-model="user.admin"  checked = "user.admin"  style="height:30px;"/>
+	</td>
+	<td>	
+	</td>
+	</tr>
+	<tr>
+	<td>
+
+    Created At
+	</td>
+	<td>
+	 <input type="datetime-local" ng-model="user.created_at" style="height:30px;">
+	</td>
+	<td>
+	</td>
+	</tr>
+	<tr>
+	<td>
+	Updated At 
+	</td>
+	<td>
+	<input type="datetime-local" ng-model="user.updated_at"  style="height:30px;">
+	</td>
+    <td>
+	</td>	
+	</tr>
+	 <tr>
+    <td>
+    Address: 
+   </td>
+   <td>
+   <input type="text" ng-model="user.address"  style="height:30px;"/>
+   </td>
+   <td>
+	</td>
+  </tr>
+   <tr>
+  <td>
+    Country: 
+  </td>
+  <td>
+  <input type="text" ng-model="user.country"  style="height:30px;"/>
+  </td>
+  <td>
+  </td>
+  </tr>
+   <tr>
+  <td>
+    State:
+  </td>
+  <td>
+   <input type="text" ng-model="user.state"  style="height:30px;"/>
+  </td>
+  <td>
+	</td>
+  </tr>
+  <tr>
+	<td>
+    Access locked: 
+	</td>
+	<td>
+	<input type="checkbox" ng-model="user.access_locked"  checked = "user.access_locked"  style="height:30px;"/>
+	</td>
+	<td>
+	</td>
+	</tr>
+	
+	 <tr>
+  <td>
+    Metric Units:
+	</td>
+	<td>
+	 <select ng-model="selected_metric_unit" ng-options="name for name in metric_units" required ></select>
+	</td>
+
+	</tr>
+  </table>
+  </form>
+   </td> 
+   <td>
+   <br>
+   <br>
+   </td>
+   
+  <td>
+   
+   </td>
+     </tr> 
+ </table>
+
+<div class="widget-box" style="width: 800px !important;">
+    <div class="widget-header">
+	<h5></h5>
+	<div class="widget-toolbar no-border" id="tabs_bar">
+												<ul class="nav nav-tabs" id="myTab">
+													<li ng-class="projects_class()">
+														<a data-toggle="tab" href="javascript:void(0);" ng-click = "show_projects = !show_projects" >Projects</a>
+													</li>
+
+													<li ng-class="loggers_class()">
+														<a data-toggle="tab" href="javascript:void(0);" ng-click = "show_projects = !show_projects">Loggers</a>
+													</li>
+
+
+												</ul>
+	</div>
+   </div>
+    <div class="widget-body">
+	<div class="widget-main" >
+<table>
+<tr>
+    <td valign="top">
+<div class="widget-box" ng-show = "show_projects">
+										<div class="widget-header">
+											<h5></h5>
+											<div class="widget-toolbar">												
+	                                        <input type="text" ng-model="searchStringSharedProjects" placeholder="projects" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												
+<table>	
+    <tr ng-repeat="project in owned_projects | searchForName:searchStringSharedProjects | orderBy : project.name">
+    <td >
+        <a href="javascript:void(0)" ng-click = "delete_project(project)"><i class="fa fa-minus-square" style="color: black !important;"></i> </a>
+        </td>
+         <td style="padding-left: 25px">
+    {{project.name}}
+	</td>
+	<td >
+	<a href="#/users/{{userId}}/edit_project_{{project.id}}"><i class="icon-edit bigger-160"></i></a>
+	</td>
+
+
+	</tr>
+    <tr ng-repeat="project in shared_projects | searchForName:searchStringSharedProjects | orderBy : project.name">
+      <td >
+	<a href="javascript:void(0);" ng-click = "unshare_project(project)"> <i class="fa fa-minus-square" style="color: black !important;"></i></a>
+	</td>
+	<td style="padding-left: 25px">
+    {{project.name}} 
+	</td>
+	<td style = "padding-left:25px;">
+	<a href="#/users/{{userId}}/edit_project_{{project.id}}"> <i class="fa fa-eye fa-2x"></i></a>
+	</td>
+
+	</tr>
+  </table>
+
+</div>
+ </div>
+ </div>
+</td>
+    <td  valign="top">
+<div class="widget-box" ng-show = "!show_projects">
+<div class="widget-header" >
+<h5></h5>
+											<div class="widget-toolbar">													                                      
+		                 <input type="text" ng-model="searchString" placeholder="user loggers" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												
+<table>	
+    <tr ng-repeat="logger in owned_loggers | searchFor:searchString">
+	<td  valign="top">
+
+    <a href="javascript:void(0);" ng-click="deleteLoggerFromUser(logger)"><i class="fa fa-minus-square" style="color: black !important;"></i></a>
+
+    </td>
+    <td  valign="top" style="padding-left: 20px">
+      <a href="javascript:void(0);" ng-click="logger.showSiblings = !logger.showSiblings"> <font color=" black"> {{logger.id}} </font></a>
+        <ul ng-show = "logger.showSiblings">
+         <li ng-repeat="sensor in logger.sensors">
+           {{sensor.title}}
+         </li>
+       </ul>
+    </td>
+	</tr>  
+  </table>
+
+</div>
+</div>
+</div>
+
+</td>
+<td  valign="top" style="padding-left: 20px">
+<div class="widget-box" ng-show = "!show_projects">
+<div class="widget-header">
+<h5></h5>
+											<div class="widget-toolbar">
+		                 <input type="text" ng-model="searchStringFreeLoggers" placeholder="free loggers" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+    <table>
+    <tr ng-repeat="logger in free_loggers | searchFor:searchStringFreeLoggers | offset:currentPage*itemsPerPage | limitTo:itemsPerPage">
+	<td>
+	<a href="javascript:void(0);" ng-click="addLoggerToUser(logger)"><i class="fa fa-plus-square" style="color: black !important;"></i> <font color=" black"> {{logger.id}} </font></a>
+    <ul>
+         <li ng-repeat="sensor in logger.sensors">
+           {{sensor.title}}
+         </li>
+       </ul>
+	</td>
+	</tr>
+    <tr>
+        <td>
+             <div class="pagination">
+          <ul>
+            <li ng-class="prevPageDisabled()">
+              <a href ng-click="prevPage()">� Prev</a>
+            </li>
+            <li ng-repeat="n in range()"
+              ng-class="{active: n == currentPage}" ng-click="setPage(n)">
+              <a href="#">{{n+1}}</a>
+            </li>
+            <li ng-class="nextPageDisabled()">
+              <a href ng-click="nextPage()">Next �</a>
+            </li>
+          </ul>
+        </div>
+        </td>
+    </tr>
+</table>
+</div>
+</div>
+</div>
+</td>
+    <td  valign="top">
+<div class="widget-box" ng-show = "show_projects">
+										<div class="widget-header">
+                                            <h5></h5>
+											<div class="widget-toolbar">
+	                                        <input type="text" ng-model="searchStringProjects" placeholder="Share project" />
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+
+<table>
+    <tr ng-repeat="project in all_projects | searchForName:searchStringProjects|  startFrom:projectsCurrentPage*itemsPerPage | limitTo:itemsPerPage | orderBy : project.name ">
+
+	<td style = "padding-left:25px;">
+	<a href="javascript:void(0)" ng-click = "share_project_with_user(project)"><i class="fa fa-plus-square" style="color: black !important;"></i></a>
+	</td>
+        <td>
+    {{project.name}}
+	</td>
+
+	</tr>
+     <tr>
+        <td>
+          <div class="pagination">
+              <table>
+                  <tr>
+                      <td>
+          <ul>
+            <li ng-class="projectsPrevPageDisabled()">
+              <a href ng-click="projectsPrevPage()">� Prev</a>
+            </li>
+              </ul>
+                          </td>
+                      <td>
+              <ul>
+            <li ng-class="projectsNextPageDisabled()">
+              <a href ng-click="projectsNextPage()">Next �</a>
+            </li>
+          </ul>
+                      </td>
+                  </tr>
+            </table>
+        </div>
+        </td>
+    </tr>
+  </table>
+
+</div>
+ </div>
+    </div>
+    </td>
+</tr>
+</table>
+   </div>
+   </div>
+ </div>
