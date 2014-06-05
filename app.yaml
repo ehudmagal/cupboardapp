@@ -17,7 +17,7 @@ handlers:
 - url: /admin
   static_dir: admin
   expiration: "7d"
-  
+
 - url: /_ah/queue/deferred
   script: djangoappengine.deferred.handler.application
   login: admin
