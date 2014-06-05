@@ -14,9 +14,10 @@ builtins:
 handlers:
 
 
-- url: /admin
-  static_dir: admin
+- url: /myadmin
+  static_dir: myadmin
   expiration: "7d"
+
 
 - url: /_ah/queue/deferred
   script: djangoappengine.deferred.handler.application

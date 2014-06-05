@@ -11,6 +11,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'mangement',
+
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -26,9 +28,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 LOGIN_REDIRECT_URL = '/guestbook/'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
+#MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+TEMPLATE_DIRS = (
+                 PROJECT_PATH + '/mangement/templates',
+                 )
 
 ROOT_URLCONF = 'urls'
 
-STATIC_URL = '/admin/'
+#STATIC_URL = '/admin/'
