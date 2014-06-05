@@ -16,6 +16,8 @@ handlers:
 
 - url: /admin
   static_dir: admin
+- url: /admin/assets/css
+  static_dir: admin/assets/css
 
 - url: /_ah/queue/deferred
   script: djangoappengine.deferred.handler.application
